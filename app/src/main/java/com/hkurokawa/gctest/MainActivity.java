@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,10 +21,13 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     private int softRefId = 0;
+    private Collection<WeakReference<Data>> weakRefSet;
     private Collection<SoftReference<Data>> softRefSet;
-    private Set<Data> strongRefSet;
+    private Collection<Data> strongRefSet;
+    private NumberPicker weakSizePick;
     private NumberPicker softSizePick;
     private NumberPicker strongSizePick;
+    private TextView numWeakReference;
     private TextView numSoftReference;
     private TextView numStrongReference;
     private TextView softRefContent;
@@ -33,13 +37,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.weakRefSet = new HashSet<>();
         this.softRefSet = new ArrayList<>();
         this.strongRefSet = new HashSet<>();
+        this.weakSizePick = (NumberPicker) findViewById(R.id.sizeWeakReference);
         this.softSizePick = (NumberPicker) findViewById(R.id.sizeSoftReference);
         this.strongSizePick = (NumberPicker) findViewById(R.id.sizeStrongReference);
+        this.weakSizePick.setMaxValue(100);
         this.softSizePick.setMaxValue(100);
         this.strongSizePick.setMaxValue(100);
         this.softRefContent = (TextView) findViewById(R.id.softReferenceContent);
+        this.numWeakReference = (TextView) this.findViewById(R.id.numWeakReferenceObject);
         this.numSoftReference = (TextView) this.findViewById(R.id.numSoftReferenceObject);
         this.numStrongReference = (TextView) this.findViewById(R.id.numStrongReferenceObject);
         this.heapStatus = (TextView) this.findViewById(R.id.heapStatus);
@@ -73,8 +81,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onAddWeakReferenceClick(View btn) {
+        this.weakRefSet.add(new WeakReference<>(new Data("", this.weakSizePick.getValue() * 1024 * 1024)));
+        this.update();
+    }
+
     public void onAddSoftReferenceClick(View btn) {
-        this.softRefSet.add(new SoftReference<>(new Data(Character.toString((char)('A' + this.softRefId)), this.softSizePick.getValue() * 1024 * 1024)));
+        this.softRefSet.add(new SoftReference<>(new Data(Integer.toString(this.softRefId), this.softSizePick.getValue() * 1024 * 1024)));
         this.update();
         this.softRefId++;
     }
@@ -99,13 +112,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void update() {
-        final Iterator<SoftReference<Data>> iter = this.softRefSet.iterator();
-        while (iter.hasNext()) {
-            Reference<Data> ref = iter.next();
-            if (ref.get() == null) {
-                iter.remove();
-            }
-        }
+        cleanUp(this.weakRefSet);
+        this.numWeakReference.setText(Integer.toString(this.weakRefSet.size()));
+        cleanUp(this.softRefSet);
         this.softRefContent.setText(toString(this.softRefSet));
         this.numSoftReference.setText(Integer.toString(this.softRefSet.size()));
         this.numStrongReference.setText(Integer.toString(this.strongRefSet.size()));
@@ -117,10 +126,19 @@ public class MainActivity extends AppCompatActivity {
         this.heapStatus.setText("allocated: " + df.format((double) Runtime.getRuntime().totalMemory() / 1048576) + "MB of " + df.format((double) Runtime.getRuntime().maxMemory() / 1048576) + "MB (" + df.format((double) Runtime.getRuntime().freeMemory() / 1048576) + "MB free)");
     }
 
-    private static String toString(Collection<SoftReference<Data>> collection) {
+    private static void cleanUp(Collection<? extends Reference<Data>> refs) {
+        for (Iterator<? extends Reference<Data>> iter = refs.iterator(); iter.hasNext();) {
+            Reference<Data> ref = iter.next();
+            if (ref.get() == null) {
+                iter.remove();
+            }
+        }
+    }
+
+    private static String toString(Collection<? extends Reference<Data>> collection) {
         final StringBuffer sb = new StringBuffer();
-        for (Iterator<SoftReference<Data>> iter = collection.iterator(); iter.hasNext();) {
-            final SoftReference<?> s = iter.next();
+        for (Iterator<? extends Reference<Data>> iter = collection.iterator(); iter.hasNext();) {
+            final Reference<Data> s = iter.next();
             sb.append(s.get() == null ? "null" : s.get()).append(", ");
         }
         if (sb.length() > 0) {
