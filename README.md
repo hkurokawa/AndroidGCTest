@@ -7,6 +7,6 @@ An Android app to test GC behaviour on Android.  This app shows how the GC on An
 3. Click the **CLEAR** button under **Weak** to remove any strong references from the weakly referenced objects.
 4. Then, click **RUN GC** to see they are garbage-collected.
 5. You can do the same operations for soft-references with the buttons under **Soft**. The rightmost text demonstrates which object survives. You can see a new number is appended to the list every time you hit **ADD** under **Soft**, which means an object named the number is generated. With this text, you can see how the soft references are garbage-collected when they have no strong reference.
-6. On **Strong**, you can add or clear strong-referenced objects. You can control the available heap size with those buttons.
+6. Under **Strong**, you can add or clear strong-referenced objects. You can control the available heap size with those buttons.
 7. **RUN GC** runs GC explicitly.
 8. **REFRESH** refreshes the memory status.
