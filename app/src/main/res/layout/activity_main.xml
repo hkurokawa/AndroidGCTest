@@ -27,7 +27,9 @@
             <EditText
                 android:id="@+id/sizeWeakReference"
                 android:text="1"
-                android:layout_width="30dp"
+                android:numeric="integer"
+                android:minEms="2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -75,7 +77,9 @@
             <EditText
                 android:id="@+id/sizeSoftReference"
                 android:text="1"
-                android:layout_width="30dp"
+                android:numeric="integer"
+                android:minEms="2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -126,7 +130,9 @@
             <EditText
                 android:id="@+id/sizeStrongReference"
                 android:text="1"
-                android:layout_width="30dp"
+                android:numeric="integer"
+                android:minEms="2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
