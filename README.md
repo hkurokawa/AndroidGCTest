@@ -12,7 +12,7 @@ An Android app to test GC behaviour on Android.  This app shows how the GC on An
 8. **REFRESH** refreshes the memory status.
 
 ## Screenshot
-![]()
+![](https://cloud.githubusercontent.com/assets/6446183/8150674/3889152e-132e-11e5-957c-3b98da6636ef.png)
 
 ## Demo
 ![](https://cloud.githubusercontent.com/assets/6446183/8150665/9463fd42-132d-11e5-8db0-0636cc0a6fc8.gif)
