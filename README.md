@@ -11,5 +11,8 @@ An Android app to test GC behaviour on Android.  This app shows how the GC on An
 7. **RUN GC** runs GC explicitly.
 8. **REFRESH** refreshes the memory status.
 
+## Screenshot
+![]()
+
 ## Demo
 ![](https://cloud.githubusercontent.com/assets/6446183/8150665/9463fd42-132d-11e5-8db0-0636cc0a6fc8.gif)
