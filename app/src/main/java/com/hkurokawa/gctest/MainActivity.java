@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddSoftReferenceClick(View btn) {
-        final Data data = new Data(Integer.toString(this.softRefId),parseEditText(this.softSizePick) * MB);
+        final Data data = new Data(Integer.toString(this.softRefId), parseEditText(this.softSizePick) * MB);
         this.softRefSet.add(new SoftReference<>(data));
         this.softRefAnchorSet.add(data);
         this.update();
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static void cleanUp(Collection<? extends Reference<Data>> refs) {
-        for (Iterator<? extends Reference<Data>> iter = refs.iterator(); iter.hasNext();) {
+        for (Iterator<? extends Reference<Data>> iter = refs.iterator(); iter.hasNext(); ) {
             Reference<Data> ref = iter.next();
             if (ref.get() == null) {
                 iter.remove();
