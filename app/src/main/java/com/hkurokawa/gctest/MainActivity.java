@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private int softRefId = 0;
     private Collection<WeakReference<Data>> weakRefSet;
     private Collection<SoftReference<Data>> softRefSet;
+    private Collection<Data> weakRefAnchorSet;
+    private Collection<Data> softRefAnchorSet;
     private Collection<Data> strongRefSet;
     private EditText weakSizePick;
     private EditText softSizePick;
@@ -39,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.weakRefSet = new HashSet<>();
+        this.weakRefAnchorSet = new HashSet<>();
         this.softRefSet = new ArrayList<>();
+        this.softRefAnchorSet = new HashSet<>();
         this.strongRefSet = new HashSet<>();
         this.weakSizePick = (EditText) findViewById(R.id.sizeWeakReference);
         this.softSizePick = (EditText) findViewById(R.id.sizeSoftReference);
@@ -80,14 +84,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddWeakReferenceClick(View btn) {
-        this.weakRefSet.add(new WeakReference<>(new Data("", Integer.parseInt(this.weakSizePick.getText().toString().trim()) * 1024 * 1024)));
+        final Data data = new Data("", Integer.parseInt(this.weakSizePick.getText().toString().trim()) * 1024 * 1024);
+        this.weakRefSet.add(new WeakReference<>(data));
+        this.weakRefAnchorSet.add(data);
+        this.update();
+    }
+
+    public void onClearWeakReferenceClick(View btn) {
+        this.weakRefAnchorSet.clear();
         this.update();
     }
 
     public void onAddSoftReferenceClick(View btn) {
-        this.softRefSet.add(new SoftReference<>(new Data(Integer.toString(this.softRefId), Integer.parseInt(this.softSizePick.getText().toString().trim()) * 1024 * 1024)));
+        final Data data = new Data(Integer.toString(this.softRefId), Integer.parseInt(this.softSizePick.getText().toString().trim()) * 1024 * 1024);
+        this.softRefSet.add(new SoftReference<>(data));
+        this.softRefAnchorSet.add(data);
         this.update();
         this.softRefId++;
+    }
+
+    public void onClearSoftReferenceClick(View btn) {
+        this.softRefAnchorSet.clear();
+        this.update();
     }
 
     public void onAddStrongReferenceClick(View btn) {

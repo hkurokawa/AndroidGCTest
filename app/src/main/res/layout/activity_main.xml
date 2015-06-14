@@ -27,7 +27,7 @@
             <EditText
                 android:id="@+id/sizeWeakReference"
                 android:text="1"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -42,12 +42,23 @@
                 android:onClick="onAddWeakReferenceClick"
                 android:text="Add" />
 
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClearWeakReferenceClick"
+                android:text="Clear" />
+
             <TextView
                 android:id="@+id/numWeakReferenceObject"
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="0" />
+
+            <Space
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <TextView
@@ -64,7 +75,7 @@
             <EditText
                 android:id="@+id/sizeSoftReference"
                 android:text="1"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -79,6 +90,13 @@
                 android:onClick="onAddSoftReferenceClick"
                 android:text="Add" />
 
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClearSoftReferenceClick"
+                android:text="Clear" />
+
             <TextView
                 android:id="@+id/numSoftReferenceObject"
                 android:layout_width="20dp"
@@ -91,7 +109,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                tools:text="[A, B]" />
+                tools:text="0, 1, 2" />
         </LinearLayout>
 
         <TextView
@@ -107,8 +125,8 @@
 
             <EditText
                 android:id="@+id/sizeStrongReference"
-                android:text="10"
-                android:layout_width="wrap_content"
+                android:text="1"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -136,6 +154,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="0" />
+
+            <Space
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
