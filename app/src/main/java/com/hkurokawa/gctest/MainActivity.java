@@ -1,13 +1,11 @@
 package com.hkurokawa.gctest;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.lang.ref.Reference;
@@ -18,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
+    private static int MB = 1024 * 1024;
     private int softRefId = 0;
     private Collection<WeakReference<Data>> weakRefSet;
     private Collection<SoftReference<Data>> softRefSet;
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddWeakReferenceClick(View btn) {
-        final Data data = new Data("", Integer.parseInt(this.weakSizePick.getText().toString().trim()) * 1024 * 1024);
+        final Data data = new Data("", parseEditText(this.weakSizePick) * MB);
         this.weakRefSet.add(new WeakReference<>(data));
         this.weakRefAnchorSet.add(data);
         this.update();
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddSoftReferenceClick(View btn) {
-        final Data data = new Data(Integer.toString(this.softRefId), Integer.parseInt(this.softSizePick.getText().toString().trim()) * 1024 * 1024);
+        final Data data = new Data(Integer.toString(this.softRefId),parseEditText(this.softSizePick) * MB);
         this.softRefSet.add(new SoftReference<>(data));
         this.softRefAnchorSet.add(data);
         this.update();
@@ -109,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddStrongReferenceClick(View btn) {
-        this.strongRefSet.add(new Data("", Integer.parseInt(this.strongSizePick.getText().toString().trim()) * 1024 * 1024));
+        this.strongRefSet.add(new Data("", parseEditText(this.strongSizePick) * MB));
         this.update();
     }
 
@@ -151,10 +149,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private static int parseEditText(EditText text) {
+        try {
+            return Integer.parseInt(text.getText().toString().trim());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     private static String toString(Collection<? extends Reference<Data>> collection) {
-        final StringBuffer sb = new StringBuffer();
-        for (Iterator<? extends Reference<Data>> iter = collection.iterator(); iter.hasNext();) {
-            final Reference<Data> s = iter.next();
+        final StringBuilder sb = new StringBuilder();
+        for (final Reference<Data> s : collection) {
             sb.append(s.get() == null ? "null" : s.get()).append(", ");
         }
         if (sb.length() > 0) {
