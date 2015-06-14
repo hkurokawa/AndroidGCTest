@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -24,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private Collection<WeakReference<Data>> weakRefSet;
     private Collection<SoftReference<Data>> softRefSet;
     private Collection<Data> strongRefSet;
-    private NumberPicker weakSizePick;
-    private NumberPicker softSizePick;
-    private NumberPicker strongSizePick;
+    private EditText weakSizePick;
+    private EditText softSizePick;
+    private EditText strongSizePick;
     private TextView numWeakReference;
     private TextView numSoftReference;
     private TextView numStrongReference;
@@ -40,12 +41,9 @@ public class MainActivity extends AppCompatActivity {
         this.weakRefSet = new HashSet<>();
         this.softRefSet = new ArrayList<>();
         this.strongRefSet = new HashSet<>();
-        this.weakSizePick = (NumberPicker) findViewById(R.id.sizeWeakReference);
-        this.softSizePick = (NumberPicker) findViewById(R.id.sizeSoftReference);
-        this.strongSizePick = (NumberPicker) findViewById(R.id.sizeStrongReference);
-        this.weakSizePick.setMaxValue(100);
-        this.softSizePick.setMaxValue(100);
-        this.strongSizePick.setMaxValue(100);
+        this.weakSizePick = (EditText) findViewById(R.id.sizeWeakReference);
+        this.softSizePick = (EditText) findViewById(R.id.sizeSoftReference);
+        this.strongSizePick = (EditText) findViewById(R.id.sizeStrongReference);
         this.softRefContent = (TextView) findViewById(R.id.softReferenceContent);
         this.numWeakReference = (TextView) this.findViewById(R.id.numWeakReferenceObject);
         this.numSoftReference = (TextView) this.findViewById(R.id.numSoftReferenceObject);
@@ -82,18 +80,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddWeakReferenceClick(View btn) {
-        this.weakRefSet.add(new WeakReference<>(new Data("", this.weakSizePick.getValue() * 1024 * 1024)));
+        this.weakRefSet.add(new WeakReference<>(new Data("", Integer.parseInt(this.weakSizePick.getText().toString().trim()) * 1024 * 1024)));
         this.update();
     }
 
     public void onAddSoftReferenceClick(View btn) {
-        this.softRefSet.add(new SoftReference<>(new Data(Integer.toString(this.softRefId), this.softSizePick.getValue() * 1024 * 1024)));
+        this.softRefSet.add(new SoftReference<>(new Data(Integer.toString(this.softRefId), Integer.parseInt(this.softSizePick.getText().toString().trim()) * 1024 * 1024)));
         this.update();
         this.softRefId++;
     }
 
     public void onAddStrongReferenceClick(View btn) {
-        this.strongRefSet.add(new Data("", this.strongSizePick.getValue() * 1024 * 1024));
+        this.strongRefSet.add(new Data("", Integer.parseInt(this.strongSizePick.getText().toString().trim()) * 1024 * 1024));
         this.update();
     }
 
